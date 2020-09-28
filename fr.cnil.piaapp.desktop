@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=PIA Tool
+Comment=Privacy Impact Assessment Tool
+Exec=/app/bin/run.sh
+Icon=fr.cnil.piaapp
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
