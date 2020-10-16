@@ -1,0 +1,25 @@
+From a1322444a68934a34959c792931be60fba6f62fa Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Fri, 16 Oct 2020 13:58:45 +0200
+Subject: [PATCH] ElectronClient: Avoid ASAR
+
+It makes updates more costly due to the zipping.
+---
+ ElectronClient/package.json | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ElectronClient/package.json b/ElectronClient/package.json
+index 580f829be..61c69d4c7 100644
+--- a/ElectronClient/package.json
++++ b/ElectronClient/package.json
+@@ -78,6 +78,7 @@
+       ]
+     },
+     "linux": {
++      "asar": false,
+       "icon": "../Assets/LinuxIcons",
+       "category": "Office",
+       "desktop": {
+-- 
+2.25.1
+

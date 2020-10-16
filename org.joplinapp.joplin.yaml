@@ -56,12 +56,13 @@ modules:
       - npm --version
       #- npm cache verify
       - mkdir -p /run/build/joplin/flatpak-node/tmp/
-      #- mv CliClient{,.bak}
-      #- mv ReactNativeClient{,.bak}
-      #- mkdir -p ReactNativeClient/lib/renderers/
-      #- cp ReactNativeClient.bak/lib/renderers/webviewLib.js  ReactNativeClient/lib/renderers/
-      #- cp ReactNativeClient.bak/lib/markJsUtils.js ReactNativeClient.bak/lib/string-utils-common.js  ReactNativeClient/lib/
-      #- cp -ar --reflink=auto  ReactNativeClient.bak/lib/ ReactNativeClient/ 
+      - mv CliClient{,.bak}
+      - mv ReactNativeClient{,.bak}
+      #- mv ReactNativeClient/package.json{,.bak}
+      - mkdir -p ReactNativeClient/lib/renderers/
+      - cp ReactNativeClient.bak/lib/renderers/webviewLib.js  ReactNativeClient/lib/renderers/
+      - cp ReactNativeClient.bak/lib/markJsUtils.js ReactNativeClient.bak/lib/string-utils-common.js  ReactNativeClient/lib/
+      - cp -ar --reflink=auto  ReactNativeClient.bak/lib/ ReactNativeClient/ 
       #- echo foo > /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
       #- ls -la /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
       #- sdfsadf
@@ -88,10 +89,12 @@ modules:
         sha256: 1abedef78973600289368391f1a4c9d591b27ed4c48cce5e28a27844c69d38ef
       - type: dir
         path: resources
-      #- type: patch
-      #  path: joplin-no-react-nor-cli.patch
+      - type: patch
+        path: joplin-no-react-nor-cli.patch
       - type: patch
         path: 0001-do-not-bundle-the-spellfix-extension.patch
+      - type: patch
+        path: 0001-ElectronClient-Avoid-ASAR.patch
       - generated-sources.json
     modules:
       - name: zypak
