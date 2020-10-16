@@ -1,0 +1,28 @@
+From d59e6e844f3aab4e3d086f0f956c7afe56d20991 Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Thu, 15 Oct 2020 14:23:59 +0200
+Subject: [PATCH] do not bundle the spellfix extension
+
+it currently does not build, due to no internet connection
+---
+ ElectronClient/package.json | 4 ----
+ 1 file changed, 4 deletions(-)
+
+diff --git a/ElectronClient/package.json b/ElectronClient/package.json
+index 580f829be..9701d0691 100644
+--- a/ElectronClient/package.json
++++ b/ElectronClient/package.json
+@@ -85,10 +85,6 @@
+       },
+       "target": "AppImage",
+       "extraFiles": [
+-        {
+-          "from": "lib/sql-extensions/spellfix.so",
+-          "to": "usr/lib/spellfix.so"
+-        }
+       ]
+     }
+   },
+-- 
+2.25.1
+

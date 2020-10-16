@@ -1,0 +1,49 @@
+From b9b9c780c22f6396e5bf040d40868417f4e26899 Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Mon, 12 Oct 2020 17:22:57 +0200
+Subject: [PATCH] Remove CLI and ReactNativeClient
+
+It's dependencies are tricky and the flatpak-node-generator doesn't cope
+with the definitions :(
+---
+ Tools/gulp/tasks/tsc.js | 8 ++++----
+ package.json            | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/Tools/gulp/tasks/tsc.js b/Tools/gulp/tasks/tsc.js
+index 56a163763..c23f70857 100644
+--- a/Tools/gulp/tasks/tsc.js
++++ b/Tools/gulp/tasks/tsc.js
+@@ -5,12 +5,12 @@ process.chdir(rootDir);
+ 
+ module.exports = {
+ 	src: [
+-		'ReactNativeClient/**/*.tsx',
+-		'ReactNativeClient/**/*.ts',
++//		'ReactNativeClient/**/*.tsx',
++//		'ReactNativeClient/**/*.ts',
+ 		'ElectronClient/**/*.tsx',
+ 		'ElectronClient/**/*.ts',
+-		'CliClient/**/*.tsx',
+-		'CliClient/**/*.ts',
++//		'CliClient/**/*.tsx',
++//		'CliClient/**/*.ts',
+ 	],
+ 	fn: async function() {
+ 		const promise = execa('node', ['node_modules/typescript/bin/tsc', '--project', 'tsconfig.json'], { cwd: rootDir });
+diff --git a/package.json b/package.json
+index 983c8bf72..05c1f86ad 100644
+--- a/package.json
++++ b/package.json
+@@ -15,7 +15,7 @@
+     "setupNewRelease": "node ./Tools/setupNewRelease",
+     "linkChecker": "linkchecker https://joplinapp.org",
+     "clean": "npm run clean",
+-    "postinstall": "cd Tools && npm i && cd .. && cd ReactNativeClient && npm i && cd .. && cd ElectronClient && npm i && cd .. && cd CliClient && npm i && cd .. && gulp build"
++    "postinstall": "cd Tools && npm i && cd .. && cd ElectronClient && npm i && cd .. && gulp build"
+   },
+   "husky": {
+     "hooks": {
+-- 
+2.25.1
+

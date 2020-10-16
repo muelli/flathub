@@ -1,0 +1,20 @@
+diff --git a/CliClient/package-lock.json b/CliClient/package-lock.json
+index c6c66759..2c0d8e1f 100644
+--- a/CliClient/package-lock.json
++++ b/CliClient/package-lock.json
+@@ -4455,12 +4455,11 @@
+       "integrity": "sha1-GA6scAPgxwdhjvMTaPYvhLKmkJE="
+     },
+     "node-emoji": {
+-      "version": "1.8.1",
+-      "resolved": "https://registry.npmjs.org/node-emoji/-/node-emoji-1.8.1.tgz",
+-      "integrity": "sha512-+ktMAh1Jwas+TnGodfCfjUbJKoANqPaJFN0z0iqh41eqD8dvguNzcitVSBSVK1pidz0AqGbLKcoVuVLRVZ/aVg==",
++      "version": "git+https://github.com/laurent22/node-emoji.git#9fa01eac463e94dde1316ef8c53089eeef4973b5",
++      "from": "git+https://github.com/laurent22/node-emoji.git",
+       "requires": {
+         "lodash.toarray": "^4.4.0"
+-      }
++       }
+     },
+     "node-fetch": {
+       "version": "1.7.3",

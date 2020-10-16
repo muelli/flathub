@@ -1,0 +1,130 @@
+app-id: org.joplinapp.joplin
+runtime: org.freedesktop.Platform
+runtime-version: '20.08'
+sdk: org.freedesktop.Sdk
+sdk-extensions:
+  - org.freedesktop.Sdk.Extension.node12
+command: joplin
+#rename-desktop-file: org.joplinapp.joplin.desktop
+# rename-icon: joplin
+cleanup:
+  - /include
+  - /lib/pkgconfig
+  - '*.a'
+  - '*.la'
+finish-args:
+  - --device=dri
+  - --filesystem=xdg-documents
+  - --filesystem=xdg-download
+  - --filesystem=xdg-music
+  - --filesystem=xdg-pictures
+  - --filesystem=xdg-videos
+  - --own-name=org.kde.*
+  - --persist=.config/joplin-desktop
+  - --share=ipc
+  - --share=network
+  - --socket=pulseaudio
+  - --socket=x11
+  - --talk-name=org.freedesktop.Notifications
+  - --talk-name=org.kde.StatusNotifierWatcher
+modules:
+  # Copied from https://github.com/flatpak/flatpak-builder-tools/blob/ca5863a21454e81b04218f22cea83b2f78abed0b/node/vanilla-quick-start/org.electronjs.ElectronQuickStart.yaml#L31
+  - name: node
+    buildsystem: simple
+    build-commands:
+      - '/usr/lib/sdk/node12/install-sdk.sh'
+
+  - name: joplin
+    buildsystem: simple
+    build-options:
+      append-path: /usr/lib/sdk/node12/bin
+      env:
+        NPM_CONFIG_LOGLEVEL: info
+        npm_config_nodedir: /usr/lib/sdk/node12
+
+        # Tell caches where we pre-downloaded things.
+        npm_config_cache: /run/build/joplin/flatpak-node/npm-cache/
+        electron_config_cache: /run/build/joplin/flatpak-node/electron-cache
+
+        # Tell the chromedriver npm package where we pre-downloaded things.
+        ELECTRON_CACHE: /run/build/joplin/flatpak-node/electron-cache
+        # We don't get to have that variable here
+        #TEMP: $FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp
+    build-commands:
+      - node --version
+      - npm --version
+      #- npm cache verify
+      - mkdir -p /run/build/joplin/flatpak-node/tmp/
+      #- mv CliClient{,.bak}
+      #- mv ReactNativeClient{,.bak}
+      #- mkdir -p ReactNativeClient/lib/renderers/
+      #- cp ReactNativeClient.bak/lib/renderers/webviewLib.js  ReactNativeClient/lib/renderers/
+      #- cp ReactNativeClient.bak/lib/markJsUtils.js ReactNativeClient.bak/lib/string-utils-common.js  ReactNativeClient/lib/
+      #- cp -ar --reflink=auto  ReactNativeClient.bak/lib/ ReactNativeClient/ 
+      #- echo foo > /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
+      #- ls -la /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
+      #- sdfsadf
+      # https://github.com/flatpak/flatpak-builder-tools/blob/db24c70456b7122f4243ab4a21dbb3368334e259/node/README.md#chromedriver-support
+      - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
+      - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
+      - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
+      # - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run dist --offline --verbose      
+      - cd ElectronClient ; ls -la node_modules/.bin/electron-builder
+      - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp node_modules/.bin/electron-builder --linux --dir
+      - cp -ar ElectronClient/dist/linux-unpacked /app/joplin
+      #- cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm --offline --verbose run node_modules/.bin/electron-builder --linux --dir
+
+      - install -D apply_extra /app/bin/apply_extra
+      - install -Dm755 joplin /app/bin/joplin
+      - install -D org.joplinapp.joplin.desktop /app/share/applications/org.joplinapp.joplin.desktop
+      - |
+          for s in 16 24 32 48 72 96 128 144 256 512; do
+            install -Dm644 ${s}x${s}.png /app/share/icons/hicolor/${s}x${s}/apps/org.joplinapp.joplin.png
+          done
+    sources:
+      - type: archive
+        url: https://github.com/laurent22/joplin/archive/v1.3.2.tar.gz
+        sha256: 1abedef78973600289368391f1a4c9d591b27ed4c48cce5e28a27844c69d38ef
+      - type: dir
+        path: resources
+      #- type: patch
+      #  path: joplin-no-react-nor-cli.patch
+      - type: patch
+        path: 0001-do-not-bundle-the-spellfix-extension.patch
+      - generated-sources.json
+    modules:
+      - name: zypak
+        sources:
+          - type: git
+            url: https://github.com/refi64/zypak
+            tag: v2020.02
+      - name: rsync
+        config-opts:
+          - --disable-xxhash
+          - --disable-zstd
+        cleanup:
+          - "*"
+        sources:
+          - type: archive
+            url: https://download.samba.org/pub/rsync/src/rsync-3.2.3.tar.gz
+            sha256: becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e
+      - shared-modules/libappindicator/libappindicator-gtk3-12.10.json
+      # can switch to gnome runtime instead of building libnotify
+      - name: libnotify
+        buildsystem: meson
+        config-opts:
+          - -Ddocbook_docs=disabled
+          - -Dgtk_doc=false
+          - -Dintrospection=disabled
+          - -Dman=false
+          - -Dtests=false
+        sources:
+          - type: archive
+            url: https://gitlab.gnome.org/GNOME/libnotify/-/archive/0.7.9/libnotify-0.7.9.tar.gz
+            sha256: 9bd4f5fa911d27567e7cc2d2d09d69356c16703c4e8d22c0b49a5c45651f3af0
+      - name: libvips
+        sources:
+          - type: archive
+            url: https://github.com/libvips/libvips/releases/download/v8.10.1/vips-8.10.1.tar.gz
+            sha256: e089bb4f73e1dce866ae53e25604ea4f94535488a45bb4f633032e1d2f4e2dda
+      - libsecret.json        
