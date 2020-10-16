@@ -50,6 +50,7 @@ modules:
         ELECTRON_CACHE: /run/build/joplin/flatpak-node/electron-cache
         # We don't get to have that variable here
         #TEMP: $FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp
+        DEBUG: electron-builder
     build-commands:
       - node --version
       - npm --version
