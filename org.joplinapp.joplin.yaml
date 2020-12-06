@@ -65,7 +65,7 @@ modules:
       #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
       - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
       - cd packages/app-desktop ; ls -la node_modules/.bin/electron-builder
-      - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp node_modules/.bin/electron-builder --linux --dir
+      - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp DEBUG=electron-builder node_modules/.bin/electron-builder --linux --dir
       - cp -ar ElectronClient/dist/linux-unpacked /app/joplin
       #- cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm --offline --verbose run node_modules/.bin/electron-builder --linux --dir
 
@@ -82,10 +82,9 @@ modules:
         sha256: 55aad4fe50e2da980983a69bc7c0870626064db971550d522e266feb17d38916
       - type: dir
         path: resources
-      #- type: patch
-      #  path: joplin-no-react-nor-cli.patch
-      #- type: patch
-      #  path: 0001-do-not-bundle-the-spellfix-extension.patch
+      - type: patch
+        paths:
+            - 0001-lerna-make-it-use-npm-in-offline-mode.patch
       #- type: patch
       #  path: 0001-ElectronClient-Avoid-ASAR.patch
       - generated-sources.json

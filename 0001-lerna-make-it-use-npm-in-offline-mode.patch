@@ -1,0 +1,25 @@
+From 091fd897851841ca46057c76224bad400dd6ea81 Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Sun, 6 Dec 2020 01:35:01 +0100
+Subject: [PATCH] lerna: make it use npm in offline mode
+
+I hope it helps for my flatpak usecase.
+---
+ lerna.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lerna.json b/lerna.json
+index a2bb50ba7..5c266512f 100644
+--- a/lerna.json
++++ b/lerna.json
+@@ -2,5 +2,6 @@
+   "packages": [
+     "packages/*"
+   ],
+-  "version": "independent"
++  "version": "independent",
++  "npmClientArgs": ["--offline"]
+ }
+-- 
+2.25.1
+
