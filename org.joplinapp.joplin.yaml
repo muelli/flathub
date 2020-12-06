@@ -1,4 +1,5 @@
 app-id: org.joplinapp.joplin
+# FIXME: Change to net.cozic.joplin-desktop as per the upstream appid in app-desktop/package.json
 runtime: org.freedesktop.Platform
 runtime-version: '20.08'
 sdk: org.freedesktop.Sdk
@@ -37,8 +38,8 @@ modules:
   - name: joplin
     buildsystem: simple
     build-options:
-      build-args:
-        - --share=network
+      #build-args:
+      #  - --share=network
       append-path: /usr/lib/sdk/node12/bin
       env:
         NPM_CONFIG_LOGLEVEL: info
@@ -58,23 +59,13 @@ modules:
       - npm --version
       #- npm cache verify
       - mkdir -p /run/build/joplin/flatpak-node/tmp/
-      #- mv CliClient{,.bak}
-      #- mv ReactNativeClient{,.bak}
-      #- mv ReactNativeClient/package.json{,.bak}
-      - mkdir -p ReactNativeClient/lib/renderers/
-      #- cp ReactNativeClient.bak/lib/renderers/webviewLib.js  ReactNativeClient/lib/renderers/
-      #- cp ReactNativeClient.bak/lib/markJsUtils.js ReactNativeClient.bak/lib/string-utils-common.js  ReactNativeClient/lib/
-      #- cp -ar --reflink=auto  ReactNativeClient.bak/lib/ ReactNativeClient/ 
-      #- echo foo > /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
-      #- ls -la /run/build/joplin/flatpak-node/tmp/.v8flags-1-7.8.279.23-node.44.1d41c853af58d3a7ae54990ce29417d8.json
-      #- sdfsadf
       # https://github.com/flatpak/flatpak-builder-tools/blob/db24c70456b7122f4243ab4a21dbb3368334e259/node/README.md#chromedriver-support
+      #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
       - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
-      - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
-      - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
-      # - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run dist --offline --verbose      
-      - cd ElectronClient ; ls -la node_modules/.bin/electron-builder
-      - cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp node_modules/.bin/electron-builder --linux --dir
+      #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
+      - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
+      - cd packages/app-desktop ; ls -la node_modules/.bin/electron-builder
+      - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp node_modules/.bin/electron-builder --linux --dir
       - cp -ar ElectronClient/dist/linux-unpacked /app/joplin
       #- cd ElectronClient ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm --offline --verbose run node_modules/.bin/electron-builder --linux --dir
 
@@ -87,8 +78,8 @@ modules:
           done
     sources:
       - type: archive
-        url: https://github.com/laurent22/joplin/archive/v1.3.2.tar.gz
-        sha256: 1abedef78973600289368391f1a4c9d591b27ed4c48cce5e28a27844c69d38ef
+        url: https://github.com/laurent22/joplin/archive/v1.4.19.tar.gz
+        sha256: 55aad4fe50e2da980983a69bc7c0870626064db971550d522e266feb17d38916
       - type: dir
         path: resources
       #- type: patch
