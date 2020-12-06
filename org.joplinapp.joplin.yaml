@@ -62,6 +62,8 @@ modules:
       # https://github.com/flatpak/flatpak-builder-tools/blob/db24c70456b7122f4243ab4a21dbb3368334e259/node/README.md#chromedriver-support
       #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
       - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
+      - for d in packages/*; do cd $d; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose; done
+      - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run tsc
       #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
       - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
       - cd packages/app-desktop ; ls -la node_modules/.bin/electron-builder
@@ -86,6 +88,7 @@ modules:
         paths:
             - 0001-lerna-make-it-use-npm-in-offline-mode.patch
             - 0001-disable-lerna.patch
+            - 0001-disable-postinstall-alltogether.patch
       #- type: patch
       #  path: 0001-ElectronClient-Avoid-ASAR.patch
       - generated-sources.json

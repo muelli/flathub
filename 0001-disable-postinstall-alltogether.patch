@@ -1,0 +1,26 @@
+From a219258b4ad15839b2b861e75a27597c08325916 Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Sun, 6 Dec 2020 01:46:49 +0100
+Subject: [PATCH] disable postinstall alltogether
+
+the tsc command is cobbled up in there *sigh*
+---
+ package.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 6bbd0bca1..f67b2e9c9 100644
+--- a/package.json
++++ b/package.json
+@@ -24,7 +24,7 @@
+     "linter-ci": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --quiet --ext .js --ext .jsx --ext .ts --ext .tsx",
+     "linter-precommit": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --fix --ext .js --ext .jsx --ext .ts --ext .tsx",
+     "linter": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --fix --quiet --ext .js --ext .jsx --ext .ts --ext .tsx",
+-    "postinstall": "echo lerna bootstrap --no-ci --no-git-tag-version --no-push && npm run tsc",
++    "_postinstall": "echo lerna bootstrap --no-ci --no-git-tag-version --no-push && npm run tsc",
+     "publishAll": "git pull && lerna version --no-git-tag-version && gulp completePublishAll",
+     "releaseAndroid": "node packages/tools/release-android.js",
+     "releaseCli": "node packages/tools/release-cli.js",
+-- 
+2.25.1
+
