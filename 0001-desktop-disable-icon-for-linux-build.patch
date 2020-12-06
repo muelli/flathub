@@ -1,0 +1,28 @@
+From 3bd44bf1e63d99d7ff586e5c16e3b1a99dbfb71f Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Sun, 6 Dec 2020 02:07:33 +0100
+Subject: [PATCH] desktop: disable icon for linux build
+
+I believe that it causes a failure.
+I have vague memory of icons causing such problems,
+but this is entirely in the voodoo territory.
+Why am I doing this exactly?!
+---
+ packages/app-desktop/package.json | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/packages/app-desktop/package.json b/packages/app-desktop/package.json
+index 3f33f47b4..5c558af5d 100644
+--- a/packages/app-desktop/package.json
++++ b/packages/app-desktop/package.json
+@@ -76,7 +76,6 @@
+       "target": "dmg"
+     },
+     "linux": {
+-      "icon": "../../Assets/LinuxIcons",
+       "category": "Office",
+       "desktop": {
+         "Icon": "joplin"
+-- 
+2.25.1
+
