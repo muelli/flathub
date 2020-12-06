@@ -1,0 +1,26 @@
+From 00263a3e3c57832cf2c354a19b3a8caca080e324 Mon Sep 17 00:00:00 2001
+From: Tobias Mueller <muelli@cryptobitch.de>
+Date: Sun, 6 Dec 2020 01:41:58 +0100
+Subject: [PATCH] disable lerna
+
+let's see whether this helps my use case
+---
+ package.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/package.json b/package.json
+index 364763e3b..6bbd0bca1 100644
+--- a/package.json
++++ b/package.json
+@@ -24,7 +24,7 @@
+     "linter-ci": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --quiet --ext .js --ext .jsx --ext .ts --ext .tsx",
+     "linter-precommit": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --fix --ext .js --ext .jsx --ext .ts --ext .tsx",
+     "linter": "./node_modules/.bin/eslint --resolve-plugins-relative-to . --fix --quiet --ext .js --ext .jsx --ext .ts --ext .tsx",
+-    "postinstall": "lerna bootstrap --no-ci && npm run tsc",
++    "postinstall": "echo lerna bootstrap --no-ci --no-git-tag-version --no-push && npm run tsc",
+     "publishAll": "git pull && lerna version --no-git-tag-version && gulp completePublishAll",
+     "releaseAndroid": "node packages/tools/release-android.js",
+     "releaseCli": "node packages/tools/release-cli.js",
+-- 
+2.25.1
+

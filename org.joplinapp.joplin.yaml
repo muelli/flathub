@@ -85,6 +85,7 @@ modules:
       - type: patch
         paths:
             - 0001-lerna-make-it-use-npm-in-offline-mode.patch
+            - 0001-disable-lerna.patch
       #- type: patch
       #  path: 0001-ElectronClient-Avoid-ASAR.patch
       - generated-sources.json
