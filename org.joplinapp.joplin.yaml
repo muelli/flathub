@@ -63,9 +63,9 @@ modules:
       #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
       - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose
       #- for d in packages/*; do cd $d; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm install --offline --verbose; done
-      - env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run tsc
+      #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run tsc
       #- env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
-      - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
+      #- cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp npm run build --offline --verbose
       - cd packages/app-desktop ; ls -la node_modules/.bin/electron-builder
       - cd packages/app-desktop ; env HOME=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/home TEMP=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp TMPDIR=$FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp DEBUG=electron-builder node_modules/.bin/electron-builder --linux --dir
       - cp -ar ElectronClient/dist/linux-unpacked /app/joplin
