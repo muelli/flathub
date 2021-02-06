@@ -45,6 +45,9 @@ modules:
         NPM_CONFIG_LOGLEVEL: info
         npm_config_nodedir: /usr/lib/sdk/node12
 
+        npm_config_offline: 'true'
+        npm_config_no_save: 'true'
+
         # Tell caches where we pre-downloaded things.
         npm_config_cache: /run/build/joplin/flatpak-node/npm-cache/
         electron_config_cache: /run/build/joplin/flatpak-node/electron-cache
@@ -54,6 +57,7 @@ modules:
         # We don't get to have that variable here
         #TEMP: $FLATPAK_BUILDER_BUILDDIR/flatpak-node/tmp
         DEBUG: electron-builder
+
     build-commands:
       - node --version
       - npm --version
